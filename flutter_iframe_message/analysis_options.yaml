@@ -1,0 +1,16 @@
+include: package:flutter_lints/flutter.yaml
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: warning
+    prefer_const_declarations: false
+
+linter:
+  rules:
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - prefer_const_declarations
+# https://dart.dev/tools/linter-rules

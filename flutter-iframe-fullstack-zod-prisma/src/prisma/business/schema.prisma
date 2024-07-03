@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_BUSINESS")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/business"
+}
+
+model App {
+  id      Int      @id @default(autoincrement())
+  appId   String
+  name    String
+  domains Domain[]
+}
+
+model Domain {
+  id    Int    @id @default(autoincrement())
+  domain String
+  appId  Int
+  app    App   @relation(fields: [appId], references: [id])
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  userId       String
+  authSalt     String
+  recoverSalt  String
+  wallets      Wallet[]
+}
+
+model Wallet {
+  id        Int      @id @default(autoincrement())
+  public    String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  privateId Int?
+  // 这个不用与存储，仅用于关系
+  private   Private? @relation(fields: [privateId], references: [id])
+}
+
+model Private {
+  id            Int      @id @default(autoincrement())
+  authShareId   Int
+  recoverShareId Int
+  wallets       Wallet[]
+  mnemonic String
+}
